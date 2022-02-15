@@ -30,6 +30,7 @@
                   name="phone"
                   required
                   type="tel"
+                  v-maska="['+7 (###) ##-##-##', '+7 (###) ###-##-##']"
               />
               <img v-if="isPhoneValid && phoneSend"
                    :style="patternStyles.fillIconCheck"
