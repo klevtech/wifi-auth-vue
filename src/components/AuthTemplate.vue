@@ -49,6 +49,7 @@
                   :style="patternStyles.placeholder"
                   autocomplete="off"
                   class="login-form__code-input"
+                  v-maska="'####'"
               />
               <img v-if="isPhoneValid && codeSend && code"
                    :style="patternStyles.fillIconCheck"
