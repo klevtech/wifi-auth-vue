@@ -51,16 +51,16 @@
                   class="login-form__code-input"
                   v-maska="'####'"
               />
-              <img v-if="isPhoneValid && codeSend && code"
+              <img v-if="isPhoneValid && codeSend && code && !codeError"
                    :style="patternStyles.fillIconCheck"
                    class="login-form__input-wrapper_check"
                    src="../assets/svg/check.svg"
               />
-              <span v-if="codeError" class="code-error">
-                {{ patternStyles.errorText }}
-              </span>
             </div>
-            <div v-if="isPhoneValid && hasReceivedCode" :style="patternStyles.accentColor" class="retry-block">
+            <span v-if="codeError" class="code-error">
+              {{ patternData.errorText }}
+            </span>
+            <div v-if="isPhoneValid && hasReceivedCode && !codeError" :style="patternStyles.accentColor" class="retry-block">
               <span v-if="timerId" class="retry-block__timer">
                 Выслать повторно через {{ timeLeft }} секунд
               </span>
@@ -128,7 +128,7 @@
             Сервис предоставлен:
             <a
                 :style="patternStyles.secondaryColor"
-                href="http://market-wifi.com/"
+                href="https://market-wifi.com/"
                 style="text-decoration: none;"
             >
               market-wifi.com
@@ -141,6 +141,8 @@
 </template>
 
 <script>
+import Config from '../core/Config'
+
 const DEFAULT_TIMEOUT = 45;
 export default {
   name: 'AuthTemplate',
@@ -150,7 +152,6 @@ export default {
   components: {},
   data() {
     return {
-      baseUrl: 'http://212.8.238.114:8200',
       phoneSend: false,
       showRetry: false,
       timeLeft: DEFAULT_TIMEOUT,
@@ -244,14 +245,14 @@ export default {
         return `url('${imagePath}')`;
       }
 
-      return `url('${this.baseUrl + imagePath}')`;
+      return `url('${Config.url.baseurl(imagePath)}')`;
     },
     getUrlImageByPath(imagePath) {
       if (/blob/.test(imagePath)) {
         return imagePath;
       }
 
-      return this.baseUrl + imagePath;
+      return Config.url.baseurl(imagePath);
     },
     sendPhone() {
       console.warn('phone-send')
@@ -492,6 +493,14 @@ export default {
   line-height: 16px;
   text-align: left;
   color: var(--accent-color);
+}
+
+.code-error {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: left;
+  color: #F56C6C;
 }
 
 .terms, .additionalInfo {

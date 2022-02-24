@@ -1,16 +1,15 @@
 <template>
-  <!-- ToDO сделать общую обёртку над страницами авторизации, так как их может быть несколько-->
   <!-- <ads /> -->
-  <auth-template :patternData="pattern"/>
+  <template-wrapper :templateData="pattern" />
 </template>
 
 <script>
-import AuthTemplate from '../components/AuthTemplate.vue'
+import TemplateWrapper from '../components/TemplateWrapper.vue'
 
 export default {
   name: 'Main',
   components: {
-    AuthTemplate,
+    TemplateWrapper,
   },
   data() {
     return {

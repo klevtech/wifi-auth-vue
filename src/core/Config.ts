@@ -1,4 +1,4 @@
-import ConfigData from '@/config/config.json';
+import ConfigData from '../../config/config.json';
 
 interface IConfig {
   modules: any;
