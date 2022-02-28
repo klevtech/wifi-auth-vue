@@ -1,15 +1,17 @@
 <template>
-  <!-- <ads /> -->
-  <template-wrapper :templateData="pattern" />
+  <ads-wrapper v-if="needShowAds"/>
+  <template-wrapper v-else :templateData="pattern" />
 </template>
 
 <script>
 import TemplateWrapper from '../components/TemplateWrapper.vue'
+import AdsWrapper from '../components/AdsWrapper.vue'
 
 export default {
   name: 'Main',
   components: {
     TemplateWrapper,
+    AdsWrapper,
   },
   data() {
     return {
@@ -59,6 +61,11 @@ export default {
     // получить id площадки из url редиректа
     // сделать запос на получение get-pattern-location Получение шаблона по id площадки
     // TemplateService.getPattern({ locationId: this.$route.params.id })
+  },
+  computed: {
+    needShowAds() {
+      return false;
+    }
   }
 };
 </script>
