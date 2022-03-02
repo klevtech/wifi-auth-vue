@@ -1,17 +1,17 @@
 <template>
-  <ads-wrapper v-if="needShowAds"/>
+  <ads :ads="ads" v-if="needShowAds" @close-banner="closeBanner"></ads>
   <template-wrapper v-else :templateData="pattern" />
 </template>
 
 <script>
 import TemplateWrapper from '../components/TemplateWrapper.vue'
-import AdsWrapper from '../components/AdsWrapper.vue'
+import Ads from '../components/Ads.vue'
 
 export default {
   name: 'Main',
   components: {
     TemplateWrapper,
-    AdsWrapper,
+    Ads,
   },
   data() {
     return {
@@ -52,19 +52,31 @@ export default {
         primaryColor: "#1B2B85",
         secondaryColor: "",
         tabTitle: "FREE WiFi",
-      }
+      },
+      ads: {
+        bannerId: "11",
+        fileH: "/store/banners/08562bedb8b60ce05c1d/31a1b452-5efb-4b15-8d69-ecb04fa85b14.jpg",
+        fileV: "/store/banners/08562bedb8b60ce05c1d/6588c1ad-ce0e-438f-99aa-023be465ba82.jpg",
+        // fileV: "/store/banners/c273b6e669ac32a6dd5e/29d732e4-3740-4edc-952b-6c77c37394d0.mp4",
+        typeH: "image/jpeg",
+        typeV: "image/jpeg",
+        // typeV: "video/mp4",
+        nosound: false
+      },
+      needShowAds: true
     }
   },
-
+  computed: {
+  },
   created() {
     // const locationId = Number(this.$route.params.id);
     // получить id площадки из url редиректа
     // сделать запос на получение get-pattern-location Получение шаблона по id площадки
     // TemplateService.getPattern({ locationId: this.$route.params.id })
   },
-  computed: {
-    needShowAds() {
-      return false;
+  methods: {
+    closeBanner() {
+      this.needShowAds = false;
     }
   }
 };
