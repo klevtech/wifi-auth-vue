@@ -2,26 +2,30 @@
   <div class="ads">
     <div class="ads__overlay">
       <div class="ads__overlay__progress"></div>
-      <img src="/svg/close.svg" class="ads__overlay__button-close" @click="close" />
+      <img v-if="showCloseButton" src="/svg/close.svg" class="ads__overlay__button-close" alt="Закрыть баннер" @click="showNextBanner" />
+      <img v-if="pixelUrl" class="ads__overlay__pixel" :src="pixelUrl" alt="">
     </div>
-    <div class="ads__content" :style="{width: `${windowSizes.winW}px`, height: `${windowSizes.winH}px`}">
+    <div class="ads__content" :style="{width: `${windowSizes.winW}px`, height: `${windowSizes.winH}px`}" @click="handleBannerClick">
+      <img
+        v-if="isImageType"
+        :src="contentSrc(currentBanner.file)"
+        class="ads__content__image"
+        alt="Баннер"
+      />
       <video
         class="ads__content__video"
-        v-if="isVideoType(ads[`type${orientation}`])"
+        v-else
         autoplay
         playsinline
         preload="auto"
         muted
+        @click="clickVideo"
         :style="{width: `${windowSizes.winW}px`, height: `${windowSizes.winH}px`}"
       >
-        <source :src="contentSrc(ads[`file${orientation}`])" :type="ads[`type${orientation}`]" />
+        <source :src="contentSrc(currentBanner.file)" :type="ads[`type${orientation}`]" />
         Ваш браузер не поддерживает воспроизведение видео.
       </video>
-      <img
-        v-else
-        :src="contentSrc(ads[`file${orientation}`])"
-        class="ads__content__image"
-      />
+
     </div>
   </div>
 </template>
@@ -35,7 +39,11 @@ export default {
     ads: Object,
   },
   data() {
-    return {}
+    return {
+      currentBannerCount: 0,
+      showCloseButton: false,
+      pixelUrl: ''
+    }
   },
   computed: {
     windowSizes() {
@@ -43,22 +51,58 @@ export default {
     },
     orientation() {
       const winSize = this.windowSizes;
-      return  winSize.winW >= winSize.winH ? 'H' : 'V';
-    }
+      return winSize.winW >= winSize.winH ? 'H' : 'V';
+    },
+    currentBanner() {
+      return this.ads.banners[this.currentBannerCount];
+    },
+    isImageType() {
+      return ['peg', 'jpg', 'png', 'gif'].includes(this.currentBanner.file.substr(-3))
+    },
   },
   methods: {
-    isVideoType(path) {
-      return ['mp4', 'quicktime', 'webm'].includes(path.split('/')[1]);
+    close() {
+      this.$emit('close-banner');
     },
     contentSrc(path) {
       return Config.url.baseurl(path);
     },
-    close() {
-      this.$emit('close-banner');
-    }
-  }
-}
+    clickVideo() {
+      if (this.currentBanner.url) {
+        return window.open(this.currentBanner.url, '_blank');
+      }
+    },
+    handleBannerClick() {
+      this.sendClickStatistics()
+    },
+    sendClickStatistics() {
+      // get URL: baseurl/click/{locationId}/{bannerId}/
+    },
+    showNextBanner() {
+      this.showCloseButton = false;
+      let banner;
 
+      if (this.currentBannerCount < this.ads.banners.length) {
+        banner = this.ads.banners[this.currentBannerCount];
+
+        if (typeof banner.pixelurl === 'string' && '' !== banner.pixelurl) {
+          const currentDate = Date.now()
+          this.pixelUrl = banner.pixelurl.replace(/\[timestamp\]/g, currentDate.toString())
+        }
+
+        if (banner.length > 0) {
+          setTimeout(() => {
+            this.showCloseButton = true;
+          }, (banner.length - 5) * 1000)
+        }
+
+        this.currentBannerCount += 1;
+      } else {
+        this.close();
+      }
+    }
+  },
+}
 </script>
 <style lang="scss">
 .ads {
@@ -72,6 +116,13 @@ export default {
       background: radial-gradient(black, transparent);
       border-radius: 50px;
       margin: 10px;
+    }
+
+    &__pixel {
+      margin-top: -1px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
     }
   }
 

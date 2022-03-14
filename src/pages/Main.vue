@@ -54,15 +54,40 @@ export default {
         tabTitle: "FREE WiFi",
       },
       ads: {
-        bannerId: "11",
-        fileH: "/store/banners/08562bedb8b60ce05c1d/31a1b452-5efb-4b15-8d69-ecb04fa85b14.jpg",
-        fileV: "/store/banners/08562bedb8b60ce05c1d/6588c1ad-ce0e-438f-99aa-023be465ba82.jpg",
-        // fileV: "/store/banners/c273b6e669ac32a6dd5e/29d732e4-3740-4edc-952b-6c77c37394d0.mp4",
-        typeH: "image/jpeg",
-        typeV: "image/jpeg",
-        // typeV: "video/mp4",
-        nosound: false
+        "url":"\/boho\/",
+        "method":"get",
+        "checkphone":false,
+        "banners":[
+          {
+            id:"208",
+            title:"Газпром - Премиум - H1",
+            url:"",
+            file:"\/store\/files\/5\/208.jpeg",
+            length:5,
+            nosound:1,
+            pixelurl:"https:\/\/ad.doubleclick.net\/ddm\/trackimp\/N1196597.4221776GORKOM_WIFI_GPB\/B26382441.311890053;dc_trk_aid=504433667;dc_trk_cid=156408116;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};lt"
+          },
+          {
+            id:"209",
+            title:"Газпром - Премиум - H2",
+            url:"",
+            file:"\/store\/files\/5\/209.jpeg",
+            length:"5",
+            nosound:"1",
+            pixelurl:"https:\/\/ad.doubleclick.net\/ddm\/trackimp\/N1196597.4221776GORKOM_WIFI_GPB\/B26382441.311890053;dc_trk_aid=504433667;dc_trk_cid=156408116;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};lt"
+          }
+        ]
       },
+      // ads: {
+      //   bannerId: "11",
+      //   fileH: "/store/banners/08562bedb8b60ce05c1d/31a1b452-5efb-4b15-8d69-ecb04fa85b14.jpg",
+      //   fileV: "/store/banners/08562bedb8b60ce05c1d/6588c1ad-ce0e-438f-99aa-023be465ba82.jpg",
+      //   // fileV: "/store/banners/c273b6e669ac32a6dd5e/29d732e4-3740-4edc-952b-6c77c37394d0.mp4",
+      //   typeH: "image/jpeg",
+      //   typeV: "image/jpeg",
+      //   // typeV: "video/mp4",
+      //   nosound: false
+      // },
       needShowAds: true
     }
   },
